@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#livestreamer --quiet --player vlc --player-args="--qt-minimal-view {filename}" "$1" source
+
+livestreamer --quiet --player mpv "$1" source

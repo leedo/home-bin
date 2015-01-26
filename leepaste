@@ -1,0 +1,5 @@
+#!/bin/bash
+
+xdotool type --delay 0 --clearmodifiers "$(xclip -o)"
+xdotool keyup shift
+xdotool keyup super

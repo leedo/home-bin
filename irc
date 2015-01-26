@@ -1,0 +1,1 @@
+exec xfce4-terminal --title "Chats" -x ssh -t kvothe tmux attach

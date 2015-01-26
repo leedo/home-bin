@@ -1,0 +1,7 @@
+#!/bin/bash
+
+file="$(date +%Y%m%d%H%M%s)-screenshot.png"
+path="$HOME/screenshots/$file"
+import -window root $path
+scp $path kvothe:~/p/b/screenshots/
+echo -n "http://prettybrd.com/~leedo/b/screenshots/$file" | xclip -i
