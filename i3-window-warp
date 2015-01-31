@@ -1,0 +1,24 @@
+#!/usr/bin/env perl
+
+use AnyEvent;
+use AnyEvent::I3 ":all";
+
+my $i3 = i3();
+$i3->connect->recv or die "Error connecting";
+
+my $command = join(" ", @ARGV) or die "need command";
+my $cv = AE::cv;
+my $t = AE::timer 1, 0, sub { $cv->send };
+
+$i3->subscribe({
+  window => sub {
+    if ($_[0]->{change} =~ /^(focus|new)$/) {
+      my ($x, $y) = @{$_[0]->{container}{rect}}{qw{x y}};
+      system(qw{xdotool mousemove}, $x + 10, $y - 10);
+    }
+    $cv->send;
+  },
+});
+
+$i3->command($command);
+$cv->recv;
