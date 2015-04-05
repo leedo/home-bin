@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use JSON::XS;
+use utf8;
+
+$| = 1;
+print scalar <STDIN>;
+print scalar <STDIN>;
+
+while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
+  my @blocks = @{decode_json($statusline)};
+  
+  my $vol = get_vol("alsa_output.pci-0000_00_1b.0.analog-stereo");
+  @blocks = ({
+    full_text => sprintf(" 🔊 %s%%", $vol),
+    name => 'vol'
+  }, @blocks);
+
+  print encode_json(\@blocks) . ",\n";
+}
+
+sub get_vol {
+  my $search = shift;
+  my @lines = split /[\r\n]/, qx{pactl list sinks};
+
+  while (@lines) {
+    my $line = shift @lines;
+    last if $line =~ /Name:\s+\Q$search\E/;
+  }
+
+  while (@lines) {
+    my $line = shift @lines;
+    return $1 if $line =~ /Volume:.+?(\d+)%/;
+  }
+
+  return "?";
+}
