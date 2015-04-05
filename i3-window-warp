@@ -14,7 +14,7 @@ $i3->subscribe({
   window => sub {
     if ($_[0]->{change} =~ /^(focus|new)$/) {
       my ($x, $y) = @{$_[0]->{container}{rect}}{qw{x y}};
-      system(qw{xdotool mousemove}, $x + 10, $y - 10);
+      system(qw{xdotool mousemove}, $x + 20, $y + 20);
     }
     $cv->send;
   },
