@@ -1,1 +1,1 @@
-exec xfce4-terminal --title "Chats" -x ssh -t kvothe tmux attach
+exec gnome-terminal --command="ssh -t kvothe tmux attach" --title="Chats"
