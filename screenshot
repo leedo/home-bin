@@ -2,6 +2,7 @@
 
 file="$(date +%Y%m%d%H%M%s)-screenshot.png"
 path="$HOME/screenshots/$file"
-import -window root $path
-scp $path kvothe:~/p/b/screenshots/
+scrot -b -s $path
+echo -n "http://prettybrd.com/~leedo/b/screenshots/$file" | xclip -i -selection clipboard
 echo -n "http://prettybrd.com/~leedo/b/screenshots/$file" | xclip -i
+scp $path kvothe:~/p/b/screenshots/
