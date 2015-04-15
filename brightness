@@ -1,0 +1,22 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+my $change = shift;
+
+if ($change) {
+  if ($change eq "up") {
+    system qw{xbacklight -time 250 +5};
+  }
+  if ($change eq "down") {
+    system qw{xbacklight -time 250 -5};
+  }
+}
+
+my $brightness = int(qx{xbacklight});
+
+exec "notify-send", " ",
+      "-i", "notification-display-brightness-low",
+      "-h", "int:value:$brightness",
+      "-h", "string:x-canonical-private-synchronous:brightness";
