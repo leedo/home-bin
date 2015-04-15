@@ -1,0 +1,53 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+my $change = shift;
+if ($change) {
+  if ($change eq "up") {
+    system qw{pactl set-sink-volume 1 -- +10%};
+  }
+  if ($change eq "down") {
+    system qw{pactl set-sink-volume 1 -- -10%};
+  }
+}
+
+my $vol = get_vol("alsa_output.pci-0000_00_1b.0.analog-stereo");
+my @icons = (
+  [66 => "high"],
+  [33 => "medium"],
+  [0  => "low"],
+  [-1 => "off"],
+);
+
+my $icon_name = "audio-volume-high";
+
+for (@icons) {
+  if ($vol > $_->[0]) {
+    $icon_name = "audio-volume-" . $_->[1];
+    last;
+  }
+}
+
+exec "notify-send", " ",
+      "-i", $icon_name,
+      "-h", "int:value:$vol",
+      "-h", "string:synchronous:volume";
+
+sub get_vol {
+  my $search = shift;
+  my @lines = split /[\r\n]/, qx{pactl list sinks};
+
+  while (@lines) {
+    my $line = shift @lines;
+    last if $line =~ /Name:\s+\Q$search\E/;
+  }
+
+  while (@lines) {
+    my $line = shift @lines;
+    return $1 if $line =~ /Volume:.+?(\d+)%/;
+  }
+
+  return "?";
+}
