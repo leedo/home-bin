@@ -49,6 +49,7 @@ sub get_vol {
 
   while (@lines) {
     my $line = shift @lines;
+    return 0 if $line =~ /Mute: yes/;
     return $1 if $line =~ /Volume:.+?(\d+)%/;
   }
 
