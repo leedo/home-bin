@@ -11,6 +11,9 @@ if ($change) {
   if ($change eq "down") {
     system qw{pactl set-sink-volume 1 -- -10%};
   }
+  if ($change eq "mute") {
+    system qw{pactl set-sink-mute 1 toggle};
+  }
 }
 
 my $vol = get_vol("alsa_output.pci-0000_00_1b.0.analog-stereo");
