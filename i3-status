@@ -4,7 +4,8 @@ use strict;
 use warnings;
 
 use JSON::XS;
-use utf8;
+use File::Slurp;
+use Encode;
 
 $| = 1;
 print scalar <STDIN>;
@@ -18,10 +19,17 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
   my @blocks = @{decode_json($statusline)};
   
   my $vol = get_vol("alsa_output.pci-0000_00_1b.0.analog-stereo");
-  @blocks = ({
-    full_text => sprintf(" %s%% ", $vol),
-    name => 'vol'
-  }, @blocks);
+  @blocks = (
+    {
+      full_text => decode(utf8 => read_file($ENV{HOME}."/.local-temp")) . " ",
+      name => 'temp',
+    },
+    {
+      full_text => sprintf(" %s%% ", $vol),
+      name => 'vol'
+    },
+    @blocks,
+  );
 
   for my $block (@blocks) {
     if (my $parts = $levels{$block->{name}}) {

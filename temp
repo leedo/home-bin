@@ -1,0 +1,14 @@
+#!/usr/bin/env perl
+
+use Web::Scraper;
+use Encode;
+use URI;
+
+my $scraper = scraper {
+  process "div#main h3", temp => "TEXT";
+  process "div#main h4", cond => "TEXT";
+};
+
+my $info = $scraper->scrape(URI->new("http://www.wund.com/US/MI/Ann_Arbor.html"));
+
+print encode utf8 => "$info->{temp} $info->{cond}";
