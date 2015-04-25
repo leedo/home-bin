@@ -1,1 +1,1 @@
-exec gnome-terminal --command="ssh -t kvothe tmux attach" --title="Chats"
+urxvtcd -name Chats -e bash -c "mosh kvothe tmux attach"
