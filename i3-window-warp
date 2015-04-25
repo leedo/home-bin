@@ -12,7 +12,7 @@ my $t = AE::timer 1, 0, sub { $cv->send };
 
 $i3->subscribe({
   window => sub {
-    if ($_[0]->{change} =~ /^(focus|new)$/) {
+    if ($_[0]->{change} =~ /^(focus|new|move)$/) {
       my ($x, $y) = @{$_[0]->{container}{rect}}{qw{x y}};
       system(qw{xdotool mousemove}, $x + 20, $y + 20);
     }
