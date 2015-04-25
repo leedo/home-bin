@@ -1,0 +1,3 @@
+#!/bin/bash
+
+i3lock -b -d -c 000000
