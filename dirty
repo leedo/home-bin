@@ -1,0 +1,21 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+SEARCH=$1
+
+if [[ "$1" == "" ]]; then
+  SEARCH="."
+fi
+
+for dir in $(find "$SEARCH" -maxdepth 1 -type d); do
+  if [ -d "$dir/.git" ]; then
+    dirty=$(git -C "$dir" diff --shortstat 2> /dev/null | tail -n 1)
+    if [[ $dirty != "" ]]; then
+      printf "$RED%s$NC\n" $(basename "$dir")
+    else
+      printf "$GREEN%s$NC\n" $(basename "$dir")
+    fi
+  fi
+done
