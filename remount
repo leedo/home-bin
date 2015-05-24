@@ -1,0 +1,1 @@
+sudo su -c 'umount -f /mnt/arthur/downloads && mount /mnt/arthur/downloads'
