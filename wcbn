@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ mpv http://www.wcbn.org/wcbn-hd.m3u

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mpv http://www.publicbroadcasting.net/wemu/ppr/wemu.m3u
