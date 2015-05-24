@@ -6,10 +6,10 @@ use warnings;
 my $change = shift;
 if ($change) {
   if ($change eq "up") {
-    system qw{pactl set-sink-volume 1 -- +10%};
+    system qw{pactl set-sink-volume 1 +10%};
   }
   if ($change eq "down") {
-    system qw{pactl set-sink-volume 1 -- -10%};
+    system qw{pactl set-sink-volume 1 -10%};
   }
   if ($change eq "mute") {
     system qw{pactl set-sink-mute 1 toggle};
