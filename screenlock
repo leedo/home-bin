@@ -1,4 +1,4 @@
 #!/bin/bash
 
-IMG=$(ls /home/leedo/lockimgs/*.png | sort -R | tail -n 1);
+IMG=$(ls /home/leedo/lockimages/*.png | sort -R | tail -n 1);
 i3lock -b -i $IMG

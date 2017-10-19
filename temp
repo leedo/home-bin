@@ -5,10 +5,10 @@ use Encode;
 use URI;
 
 my $scraper = scraper {
-  process "div#main h3", temp => "TEXT";
-  process "div#main h4", cond => "TEXT";
+  process "p.myforecast-current-lrg", temp => "TEXT";
+  process "p.myforecast-current", cond => "TEXT";
 };
 
-my $info = $scraper->scrape(URI->new("http://www.wund.com/US/MI/Ann_Arbor.html"));
+my $info = $scraper->scrape(URI->new("http://forecast.weather.gov/MapClick.php?CityName=Ann+Arbor&state=MI&site=DTX&lat=42.2754&lon=-83.7308"));
 
 print encode utf8 => "$info->{temp} $info->{cond}";

@@ -6,17 +6,17 @@ use warnings;
 my $change = shift;
 if ($change) {
   if ($change eq "up") {
-    system qw{pactl set-sink-volume 1 +10%};
+    system qw{pactl set-sink-volume 0 +10%};
   }
   if ($change eq "down") {
-    system qw{pactl set-sink-volume 1 -10%};
+    system qw{pactl set-sink-volume 0 -10%};
   }
   if ($change eq "mute") {
-    system qw{pactl set-sink-mute 1 toggle};
+    system qw{pactl set-sink-mute 0 toggle};
   }
 }
 
-my $vol = get_vol("alsa_output.pci-0000_00_1b.0.analog-stereo");
+my $vol = get_vol("alsa_output.pci-0000_00_1f.3.analog-stereo");
 my @icons = (
   [66 => "high"],
   [33 => "medium"],

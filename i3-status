@@ -18,10 +18,16 @@ my %levels = (
 while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
   my @blocks = @{decode_json($statusline)};
   
-  my $vol = get_vol("alsa_output.pci-0000_00_1b.0.analog-stereo");
+  my $vol = get_vol("alsa_output.pci-0000_00_1f.3.analog-stereo");
+  chomp( my $temp = decode( utf8 => read_file($ENV{HOME}."/.local-temp") ) );
+  chomp( my $gov  = read_file("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor") );
   @blocks = (
     {
-      full_text => decode(utf8 => read_file($ENV{HOME}."/.local-temp")) . " ",
+      full_text => " $gov ",
+      name => "cpu",
+    },
+    {
+      full_text => " $temp ",
       name => 'temp',
     },
     {
@@ -39,6 +45,16 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
       my $icon = $levels{$block->{name}}->[$i];
       $block->{full_text} =~ s/(\d+%)/$icon $1/;
     }
+    if ($block->{name} eq "battery") {
+      my ($val) = $block->{full_text} =~ /(\S+)%/;
+      if ($val < 15) {
+        $block->{color} = "#ff0000";
+      }
+      elsif ($val < 30) {
+        $block->{color} = "#ffff00";
+      }
+    }
+    $block->{full_text} =~ s/(\d+)\.\d+%/$1%/;
   }
 
   print encode_json(\@blocks) . ",\n";

@@ -6,11 +6,13 @@ use warnings;
 my $change = shift;
 
 if ($change) {
+  chomp( my $current = `xbacklight` );
+  my $step = $current <= 7 ? 1 : 5; 
   if ($change eq "up") {
-    system qw{xbacklight -time 250 +5};
+    system `xbacklight -time 250 +$step`;
   }
-  if ($change eq "down") {
-    system qw{xbacklight -time 250 -5};
+  elsif ($change eq "down") {
+    system `xbacklight -time 250 -$step`;
   }
 }
 

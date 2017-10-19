@@ -1,1 +1,1 @@
-sudo su -c 'umount -f /mnt/arthur/downloads && mount /mnt/arthur/downloads'
+sudo su -c 'umount -f /home/leedo/mnt/deep-thought && mount /home/leedo/mnt/deep-thought'
